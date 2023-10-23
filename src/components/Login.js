@@ -2,6 +2,11 @@ import React, { useState, useRef } from "react";
 import Header from "./Header";
 import BgAlphaImage from "../assets/images/IN-perspective_alpha_website_large.jpg";
 import { validateFormData } from "../utils/validations";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -18,8 +23,33 @@ const Login = () => {
   const handleFormSubmit = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+
     const errorMessage = validateFormData(email, password);
     setErrorMessage(errorMessage);
+
+    if (errorMessage) return;
+
+    if (!isSignInForm) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const signedUpUser = userCredential.user;
+          console.log(signedUpUser);
+        })
+        .catch((error) => {
+          const { code, message } = error;
+          setErrorMessage(code + message);
+        });
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const signedInUser = userCredential;
+          console.log(signedInUser);
+        })
+        .catch((error) => {
+          const { code, message } = error;
+          setErrorMessage(code + message);
+        });
+    }
 
     // submit form data after validations
   };
