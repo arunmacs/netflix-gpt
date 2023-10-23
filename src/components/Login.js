@@ -33,7 +33,6 @@ const Login = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const signedUpUser = userCredential.user;
-          console.log(signedUpUser);
         })
         .catch((error) => {
           const { code, message } = error;
@@ -43,7 +42,6 @@ const Login = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const signedInUser = userCredential;
-          console.log(signedInUser);
         })
         .catch((error) => {
           const { code, message } = error;
