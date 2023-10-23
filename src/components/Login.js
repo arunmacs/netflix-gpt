@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Header from "./Header";
 import BgAlphaImage from "../assets/images/IN-perspective_alpha_website_large.jpg";
+import { validateFormData } from "../utils/validations";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const fullNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
+  };
+
+  const handleFormSubmit = () => {
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const errorMessage = validateFormData(email, password);
+    setErrorMessage(errorMessage);
+
+    // submit form data after validations
   };
 
   return (
@@ -15,13 +30,17 @@ const Login = () => {
       <div className="absolute">
         <img src={BgAlphaImage} alt="alpha-img" />
       </div>
-      <form className="absolute top-1/4 left-1/3 w-4/12 px-14 py-16 text-white rounded-md bg-black bg-opacity-[0.86]">
+      <form
+        onSubmit={(ev) => ev.preventDefault()}
+        className="absolute top-1/4 left-1/3 w-4/12 px-14 py-16 text-white rounded-md bg-black bg-opacity-[0.86]"
+      >
         <h1 className="text-3xl font-medium mb-6">
           {isSignInForm ? "Sign In" : "Sign up"}
         </h1>
         <div className="flex flex-col">
           {!isSignInForm && (
             <input
+              ref={fullNameRef}
               type="text"
               name="fullName"
               placeholder="Full Name"
@@ -29,23 +48,26 @@ const Login = () => {
             />
           )}
           <input
+            ref={emailRef}
             type="email"
             name="email"
             placeholder="Email Address"
             className="my-2 px-3 py-2 rounded h-12 bg-gray-700"
           />
           <input
+            ref={passwordRef}
             type="password"
             name="password"
             placeholder="Password"
             className="my-2 px-3 py-2 rounded h-12 bg-gray-700"
           />
+          <span className="text-red-600 text-md mx-1">{errorMessage}</span>
           <button
             type="submit"
             className="bg-red-600 mt-8 mb-2 py-3 rounded font-medium"
-            onClick={(ev) => ev?.preventDefault()}
+            onClick={handleFormSubmit}
           >
-            {isSignInForm ? "Sign In" : "Sign up"}
+            {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
           {isSignInForm && (
             <div className="flex justify-between content-center">
