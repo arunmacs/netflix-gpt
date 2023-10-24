@@ -1,10 +1,14 @@
 import "./App.css";
-import Body from "./components/Body";
+import { Provider } from "react-redux";
+import appStore from "./store";
+import AppWithRoutes from "./components/AppWithConfig";
 
 function App() {
   return (
     <div className="App">
-      <Body />
+      <Provider store={appStore}>
+        <AppWithRoutes />
+      </Provider>
     </div>
   );
 }
