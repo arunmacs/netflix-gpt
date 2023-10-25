@@ -25,9 +25,9 @@ const Login = () => {
   };
 
   const handleFormSubmit = () => {
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-    const fullName = fullNameRef.current.value;
+    const email = emailRef?.current?.value;
+    const password = passwordRef?.current?.value;
+    const fullName = fullNameRef?.current?.value;
 
     const errorMessage = validateFormData(email, password);
     setErrorMessage(errorMessage);
@@ -52,7 +52,10 @@ const Login = () => {
         });
     } else {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {})
+        .then((userCredential) => {
+          const { uid, displayName, email } = auth.currentUser;
+          dispatch(addUser({ uid, email, displayName }));
+        })
         .catch((error) => {
           const { code, message } = error;
           setErrorMessage(code + message);

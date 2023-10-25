@@ -40,7 +40,10 @@ const Header = () => {
     <div className="absolute z-10 w-full bg-gradient-to-b from-black">
       <img src={NetflixLogo} alt="logo" className="w-52" />
       {user && (
-        <div className="z-10 absolute top-6 right-4 flex">
+        <div className="z-10 absolute top-5 right-4 flex items-center">
+          <h1 className="text-white text-lg font-semibold mx-5">
+            Hello, {user?.displayName}
+          </h1>
           <img src={UserAvatar} alt="avatar" className="w-10 rounded-md" />
           <button
             type="button"
