@@ -7,16 +7,11 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useDispatch } from "react-redux";
-import { addUser } from "../store/slices/userSlice";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const fullNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -36,27 +31,19 @@ const Login = () => {
 
     if (!isSignInForm) {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const signedUpUser = userCredential.user;
-          navigate("/browse");
-        })
+        .then((userCredential) => {})
         .catch((error) => {
           const { code, message } = error;
           setErrorMessage(code + message);
         });
     } else {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const signedInUser = userCredential;
-          navigate("/browse");
-        })
+        .then((userCredential) => {})
         .catch((error) => {
           const { code, message } = error;
           setErrorMessage(code + message);
         });
     }
-
-    // submit form data after validations
   };
 
   return (

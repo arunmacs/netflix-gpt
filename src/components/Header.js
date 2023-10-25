@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NetflixLogo from "../assets/images/Netflix_Logo_PMS.png";
 import UserAvatar from "../assets/images/Netflix-avatar.png";
 import { useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "../store/slices/userSlice";
 
 const Header = () => {
   const user = useSelector((state) => state?.user);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribeAuthHook = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, displayName, email } = user;
+        dispatch(addUser({ uid, displayName, email }));
+        navigate("/browse");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+
+    return () => {
+      unsubscribeAuthHook();
+    };
+  }, []);
 
   const handleLogOut = () => {
     signOut(auth)
-      .then(() => {
-        navigate("/");
-      })
+      .then(() => {})
       .catch((error) => {});
   };
 
