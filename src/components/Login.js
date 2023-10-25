@@ -5,13 +5,17 @@ import { validateFormData } from "../utils/validations";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slices/userSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const dispatch = useDispatch();
   const fullNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -23,6 +27,7 @@ const Login = () => {
   const handleFormSubmit = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const fullName = fullNameRef.current.value;
 
     const errorMessage = validateFormData(email, password);
     setErrorMessage(errorMessage);
@@ -31,7 +36,16 @@ const Login = () => {
 
     if (!isSignInForm) {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {})
+        .then((userCredential) => {
+          updateProfile(userCredential.user, {
+            displayName: fullName,
+          })
+            .then(() => {
+              const { uid, displayName, email } = auth.currentUser;
+              dispatch(addUser({ uid, email, displayName }));
+            })
+            .catch(() => {});
+        })
         .catch((error) => {
           const { code, message } = error;
           setErrorMessage(code + message);
