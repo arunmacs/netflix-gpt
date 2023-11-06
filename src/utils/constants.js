@@ -6,6 +6,10 @@ export const apiConstants = {
 
 export const constants = {
   TMDB_NOW_PLAYING_URI: "https://api.themoviedb.org/3/movie/now_playing?page=1",
+  TMDB_MOVIE_VIDEOS_URI: (movieId) =>
+    `https://api.themoviedb.org/3/movie/${movieId}/videos`,
+  TMDB_IMAGE_CDN: (size, posterPath) =>
+    `https://image.tmdb.org/t/p/${size ?? "original"}/${posterPath}`,
   OPTIONS: {
     method: "GET",
     headers: {
