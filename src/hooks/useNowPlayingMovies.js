@@ -16,7 +16,12 @@ const useNowPlayingMovies = () => {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
     getNowPlayingMovies();
+
+    return () => {
+      controller?.abort();
+    };
   }, []);
 };
 

@@ -8,15 +8,17 @@ const MovieTitleContainer = ({ movie }) => {
 
       <button
         type="button"
-        className="bg-gray-50 opacity-70 text-black mx-1 my-4 px-4 py-2.5 rounded-md hover:opacity-100"
+        className="bg-gray-50 text-black mx-1 my-4 px-6 py-2.5 rounded hover:opacity-80 font-medium"
       >
-        &#9658; Play
+        {/* &#9658; */}
+        Play
       </button>
       <button
         type="button"
-        className="bg-gray-500 opacity-70 mx-1 px-4 py-2.5 rounded-md hover:opacity-100"
+        className="bg-gray-500 mx-1 px-4 py-2.5 rounded hover:opacity-80 font-medium"
       >
-        &#x1F6C8; More info
+        {/* &#x1F6C8; */}
+        More info
       </button>
     </div>
   );

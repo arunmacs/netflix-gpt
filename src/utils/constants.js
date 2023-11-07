@@ -10,6 +10,8 @@ export const constants = {
     `https://api.themoviedb.org/3/movie/${movieId}/videos`,
   TMDB_IMAGE_CDN: (size, posterPath) =>
     `https://image.tmdb.org/t/p/${size ?? "original"}/${posterPath}`,
+  TMDB_POPULAR_MOVIES: "https://api.themoviedb.org/3/movie/popular",
+  TMDB_TOP_RATED_MOVIES: "https://api.themoviedb.org/3/movie/top_rated",
   OPTIONS: {
     method: "GET",
     headers: {
